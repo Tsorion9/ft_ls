@@ -6,11 +6,38 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/13 19:35:22 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/14 18:48:15 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+t_file      *get_t_file(DIR *dir, char *flags)
+{
+    t_file          *file;
+    struct dirent   *dirent;
+    struct stat     statbuf;
+
+    file = NULL;
+    dirent = readdir(dir);
+    if (ft_strchr(flags, 't') == NULL)
+        while (dirent != NULL)
+        {
+            lstat(dirent->d_name, &statbuf);
+            file = add_file(file, dirent, statbuf);
+            dirent = readdir(dir);
+        }
+    else
+    {
+        while (dirent != NULL)
+        {
+            lstat(dirent->d_name, &statbuf);
+            file = add_file_t(file, dirent, statbuf);
+            dirent = readdir(dir);
+        }
+    }
+    return (file);
+}
 
 /*int         main(void)
 {
@@ -30,7 +57,7 @@
                 printf("is file\n");
             else
                 printf("is not file\n");
-            printf("%s\n", gid->gr_name);
+            printf("%lld\n", statbuf.st_size);
         }
         dirent = readdir(dir);
         printf("\n");
@@ -41,19 +68,12 @@
 
 int         main(int ac, char **av)
 {
+    DIR     *dir = opendir(".");
     char    *flags;
     char    **files;
-    int     i = 0;
 
     get_flagfile(ac, av, &flags, &files);
-    printf("%s\n", flags);
-    if (files != NULL)
-    {
-        while (files[i] != NULL)
-        {
-            printf("%s\n", files[i]);
-            i++;
-        }
-    }
+    t_file *filelst = get_t_file(dir, flags);
+    filelst = NULL;
     return (0);
 }
