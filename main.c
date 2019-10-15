@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/14 18:48:15 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/15 18:06:06 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,6 @@ t_file      *get_t_file(DIR *dir, char *flags)
     return (file);
 }
 
-/*int         main(void)
-{
-    DIR *dir = opendir(".");
-    struct dirent *dirent = readdir(dir);
-    struct stat statbuf;
-    struct group *gid;
-    while (dirent != NULL)
-    {
-        if (ft_strcmp(dirent->d_name, ".") != 0 &&
-            ft_strcmp(dirent->d_name, "..") != 0)
-        {
-            stat(dirent->d_name, &statbuf);
-            gid = getgrgid(statbuf.st_gid);
-            printf("%s\n", dirent->d_name);
-            if ((S_IFREG & statbuf.st_mode) == S_IFREG)
-                printf("is file\n");
-            else
-                printf("is not file\n");
-            printf("%lld\n", statbuf.st_size);
-        }
-        dirent = readdir(dir);
-        printf("\n");
-    }
-    closedir(dir);
-    return (0);
-}*/
-
 int         main(int ac, char **av)
 {
     DIR     *dir = opendir(".");
@@ -74,6 +47,7 @@ int         main(int ac, char **av)
 
     get_flagfile(ac, av, &flags, &files);
     t_file *filelst = get_t_file(dir, flags);
-    filelst = NULL;
+    closedir(dir);
+    print_all_files(filelst, flags);
     return (0);
 }

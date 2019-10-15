@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 19:29:51 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/14 13:24:10 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/15 17:22:55 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,7 @@ void        get_flagfile(int ac, char **av, char **flags, char ***files)
         i++;
     }
     *files = ft_strsplit(file, ' ');
+    if (*flags == NULL)
+        *flags = ft_strnew(1);
     free(file);
 }
