@@ -34,6 +34,9 @@ typedef struct      s_file
     struct s_file   *next;
 }                   t_file;
 
+/*          main.c                  */
+t_file              *get_t_file(DIR *dir, char *flags, char *path);
+
 /*          flags_file.c            */
 char                *get_flags(char *flags, char *new_flag);
 int                 check_flag(char *flag);
@@ -61,3 +64,6 @@ t_file              *reverse_list(t_file *file);
 char                *ft_strdup_s_e(char *s, int start, int end);
 int                 count_of_digits(int a);
 void                fill_nlinkd_sized(t_file *file, int *nlinkdig, int *sizedig);
+
+/*          recursion_ls.c          */
+void                recursion_ls(char *flags, char *path);

@@ -12,30 +12,38 @@
 
 #include "ft_ls.h"
 
-t_file      *get_t_file(DIR *dir, char *flags)
+t_file      *get_t_file(DIR *dir, char *flags, char *path)
 {
     t_file          *file;
     struct dirent   *dirent;
     struct stat     statbuf;
+    char            *filepath;
+    char            *tmp;
 
+    tmp = ft_strjoin(path, "/");
     file = NULL;
     dirent = readdir(dir);
     if (ft_strchr(flags, 't') == NULL)
         while (dirent != NULL)
         {
-            lstat(dirent->d_name, &statbuf);
+            filepath = ft_strjoin(tmp, dirent->d_name);
+            lstat(filepath, &statbuf);
             file = add_file(file, dirent, statbuf);
             dirent = readdir(dir);
+            free(filepath);
         }
     else
     {
         while (dirent != NULL)
         {
-            lstat(dirent->d_name, &statbuf);
+            filepath = ft_strjoin(tmp, dirent->d_name);
+            lstat(filepath, &statbuf);
             file = add_file_t(file, dirent, statbuf);
             dirent = readdir(dir);
+            free(filepath);
         }
     }
+    free(tmp);
     return (file);
 }
 
@@ -46,8 +54,13 @@ int         main(int ac, char **av)
     char    **files;
 
     get_flagfile(ac, av, &flags, &files);
-    t_file *filelst = get_t_file(dir, flags);
+    if (ft_strchr(flags, 'R') == NULL)
+    {
+        t_file *filelst = get_t_file(dir, flags, ".");
+        print_all_files(filelst, flags);
+    }
+    else
+        recursion_ls(flags, ".");
     closedir(dir);
-    print_all_files(filelst, flags);
     return (0);
 }
