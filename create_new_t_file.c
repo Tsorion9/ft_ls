@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 17:37:05 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/15 17:09:53 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/17 17:52:56 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,23 @@ t_file      *create_new_t_file(struct dirent *dirent, struct stat statbuf)
     struct passwd   *uid;
     struct group    *gid;
 
+    file = (t_file*)malloc(sizeof(t_file));
+    file->ino = dirent->d_ino;
     uid = getpwuid(statbuf.st_uid);
     gid = getgrgid(statbuf.st_gid);
-    file = (t_file*)malloc(sizeof(t_file));
     file->mode = get_mode(statbuf);
     file->nlink = statbuf.st_nlink;
     uid = getpwuid(statbuf.st_uid);
-    file->uid = uid->pw_name;
+    file->uid = ft_strdup(uid->pw_name);
     gid = getgrgid(statbuf.st_gid);
-    file->gid = gid->gr_name;
+    file->gid = ft_strdup(gid->gr_name);
     file->size = statbuf.st_size;
     file->date_mod = statbuf.st_mtimespec;
-    file->name = dirent->d_name;
+    if ((statbuf.st_mode & S_IFBLK) != S_IFBLK)
+        file->blksize = statbuf.st_blocks;
+    else
+        file->blksize = 0;
+    file->name = ft_strdup(dirent->d_name);
     file->next = NULL;
     return (file);
 }

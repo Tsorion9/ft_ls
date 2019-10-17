@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:00 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/15 18:54:17 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/17 18:25:10 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 typedef struct      s_file
 {
+    ino_t           ino;
     char            *mode;
     int             nlink;
     int             nlinkdig;
@@ -31,11 +32,15 @@ typedef struct      s_file
     int             sizedig;
     struct timespec date_mod;
     char            *name;
+    char            *namelnk;
+    blkcnt_t        blksize;
     struct s_file   *next;
 }                   t_file;
 
 /*          main.c                  */
 t_file              *get_t_file(DIR *dir, char *flags, char *path);
+t_file              *reverse_list(t_file *file);
+int                 get_total(t_file *file, char *flags);
 
 /*          flags_file.c            */
 char                *get_flags(char *flags, char *new_flag);
@@ -57,8 +62,7 @@ t_file              *add_file_sup_t(t_file *file, struct dirent *dirent, struct 
 /*          print_files.c           */
 void                print_all_files(t_file *file, char *flags);
 void                print_all_files_l(t_file *file, char *flags);
-void                print_file_l(t_file file, int nlinkdig, int sizedig);
-t_file              *reverse_list(t_file *file);
+void            print_file_l(t_file file, int nlinkdig, int sizedig, char *flags);
 
 /*          trash.c                 */
 char                *ft_strdup_s_e(char *s, int start, int end);
@@ -67,3 +71,4 @@ void                fill_nlinkd_sized(t_file *file, int *nlinkdig, int *sizedig)
 
 /*          recursion_ls.c          */
 void                recursion_ls(char *flags, char *path);
+void                recursion_ls_first(char *flags, char *path);

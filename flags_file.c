@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 19:29:51 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/15 17:22:55 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/17 18:35:28 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int         check_flag(char *flag)
         return (0);
     i++;
     while (flag[i] == 'l' || flag[i] == 'R' || flag[i] == 'a' ||
-        flag[i] == 'r' || flag[i] == 't')
+        flag[i] == 'r' || flag[i] == 't' || flag[i] == 'g')
         i++;
     if (i == 1 || flag[i] != '\0')
         return (0);
@@ -43,7 +43,7 @@ char        *get_flags(char *flags, char *new_flag)
     else
     {
         ft_putstr("usage: ./ft_ls \
-[-lRart] [file ...]\n");
+[-lRartg] [file ...]\n");
         free(flags);
         exit(0);
     }

@@ -6,47 +6,15 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:46:12 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/15 19:24:43 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/17 18:39:25 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_file          *reverse_list(t_file *file)
-{
-    t_file      *head_file;
-    t_file      *next_file;
-    t_file      *head_r_file;
-    t_file      *r_file;
-
-    head_file = file;
-    while (file->next != NULL)
-        file = file->next;
-    r_file = file;
-    head_r_file = r_file;
-    while (head_file->next != NULL)
-    {
-        file = head_file;
-        next_file = file->next;
-        while (next_file->next != NULL)
-        {
-            file = file->next;
-            next_file = next_file->next;
-        }
-        file->next = NULL;
-        r_file = head_r_file;
-        while (r_file->next != NULL)
-            r_file = r_file->next;
-        r_file->next = file;
-    }
-    return (head_r_file);
-}
-
 void            print_all_files(t_file *file, char *flags)
 {
-    if (ft_strchr(flags, 'r') != NULL)
-        file = reverse_list(file);
-    if (ft_strchr(flags, 'l') != NULL)
+    if (ft_strchr(flags, 'l') != NULL || ft_strchr(flags, 'g') != NULL)
     {
         fill_nlinkd_sized(file, &(file->nlinkdig), &(file->sizedig));
         print_all_files_l(file, flags);
@@ -58,23 +26,21 @@ void            print_all_files(t_file *file, char *flags)
         {
             ft_putstr(file->name);
             if (file->next != NULL)
-                ft_putchar('\t');
-            else
-                ft_putchar('\n');
+                write(1, "    ", 4);
         }
         else if (ft_strchr(flags, 'a') != NULL)
         {
             ft_putstr(file->name);
             if (file->next != NULL)
-                ft_putchar('\t');
-            else
-                ft_putchar('\n');
+                write(1, "    ", 4);
         }
+        if (file->next == NULL)
+            ft_putchar('\n');
         file = file->next;
     }
 }
 
-void            print_file_l(t_file file, int nlinkdig, int sizedig)
+void            print_file_l(t_file file, int nlinkdig, int sizedig, char *flags)
 {
     char        *date_mod;
     int         space;
@@ -88,9 +54,12 @@ void            print_file_l(t_file file, int nlinkdig, int sizedig)
         space++;
     }
     ft_putnbr(file.nlink);
-    ft_putstr(" ");
-    ft_putstr(file.uid);
-    ft_putstr("  ");
+    write(1, " ", 1);
+    if (ft_strchr(flags, 'g') == NULL)
+    {
+        ft_putstr(file.uid);
+        ft_putstr("  ");
+    }
     ft_putstr(file.gid);
     space = 0;
     while (space < sizedig - count_of_digits(file.size))
@@ -111,15 +80,25 @@ void            print_all_files_l(t_file *file, char *flags)
 {
     int     nlinkdig;
     int     sizedig;
+    int     total;
+    t_file  *head;
 
     nlinkdig = file->nlinkdig + 2;
     sizedig = file->sizedig + 2;
+    total = get_total(file, flags);
+    head = file;
+    if (total != 0 || ft_strchr(flags, 'a') != NULL)
+    {
+        write(1, "total ", 6);
+        ft_putnbr(total);
+        write(1, "\n", 1);
+    }
     while (file != NULL)
     {
         if (ft_strchr(flags, 'a') == NULL && file->name[0] != '.')
-            print_file_l(*file, nlinkdig, sizedig);
+            print_file_l(*file, nlinkdig, sizedig, flags);
         else if (ft_strchr(flags, 'a') != NULL)
-            print_file_l(*file, nlinkdig, sizedig);
+            print_file_l(*file, nlinkdig, sizedig, flags);
         file = file->next;
     }
 }

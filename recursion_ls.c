@@ -1,4 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   recursion_ls.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/17 13:07:21 by mphobos           #+#    #+#             */
+/*   Updated: 2019/10/17 17:06:31 by mphobos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
+
+void            recursion_ls_first(char *flags, char *path)
+{
+    DIR         *dir;
+    t_file      *file;
+    char        *filepath;
+    char        *tmp;
+
+    dir = opendir(path);
+    file = get_t_file(dir, flags, path);
+    print_all_files(file, flags);
+    tmp = ft_strjoin(path, "/");
+    while (file != NULL)
+    {
+        if (file->mode[0] == 'd' && ft_strcmp(file->name, ".") != 0 &&
+            ft_strcmp(file->name, "..") != 0)
+        {
+            filepath = ft_strjoin(tmp, file->name);
+            recursion_ls(flags, filepath);
+            free(filepath);
+        }
+        file = file->next;
+    }
+    free(tmp);
+    closedir(dir);
+}
 
 void            recursion_ls(char *flags, char *path)
 {
@@ -9,8 +47,9 @@ void            recursion_ls(char *flags, char *path)
 
     dir = opendir(path);
     file = get_t_file(dir, flags, path);
+    write(1, "\n", 1);
     ft_putstr(path);
-    ft_putchar('\n');
+    write(1, ":\n", 2);
     print_all_files(file, flags);
     tmp = ft_strjoin(path, "/");
     while (file != NULL)
