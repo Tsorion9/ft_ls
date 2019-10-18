@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/17 17:55:12 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 13:51:30 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,24 @@ int         main(int ac, char **av)
     DIR     *dir = opendir(".");
     char    *flags;
     char    **files;
+    t_file *filelst;
 
     get_flagfile(ac, av, &flags, &files);
-    t_file *filelst = get_t_file(dir, flags, ".");
-    if (ft_strchr(flags, 'R') == NULL)
-        print_all_files(filelst, flags);
+    filelst = get_t_file(dir, flags, ".");
+    if (files == NULL)
+    {
+        if (ft_strchr(flags, 'R') == NULL)
+            print_all_files(filelst, flags);
+        else
+            recursion_ls_first(flags, ".");
+        free(flags);
+        free_strsplit(files);
+        free_all_file(filelst);
+        closedir(dir);
+    }
     else
-        recursion_ls_first(flags, ".");
-    closedir(dir);
+    {
+        
+    }
     return (0);
 }

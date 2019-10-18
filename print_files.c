@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:46:12 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/17 18:39:25 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:09:36 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,22 @@ void            print_all_files(t_file *file, char *flags)
     {
         if (ft_strchr(flags, 'a') == NULL && file->name[0] != '.')
         {
+            if (ft_strchr(flags, 'i') != NULL)
+            {
+                ft_putnbr(file->ino);
+                write(1, " ", 1);
+            }
             ft_putstr(file->name);
             if (file->next != NULL)
                 write(1, "    ", 4);
         }
         else if (ft_strchr(flags, 'a') != NULL)
         {
+            if (ft_strchr(flags, 'i') != NULL)
+            {
+                ft_putnbr(file->ino);
+                write(1, " ", 1);
+            }
             ft_putstr(file->name);
             if (file->next != NULL)
                 write(1, "    ", 4);
@@ -46,6 +56,12 @@ void            print_file_l(t_file file, int nlinkdig, int sizedig, char *flags
     int         space;
 
     date_mod = ft_strdup_s_e(ctime(&(file.date_mod.tv_sec)), 4, 16);
+    if (ft_strchr(flags, 'i') != NULL)
+    {
+        write(1, "        ", 6 - count_of_digits(file.ino));
+        ft_putnbr(file.ino);
+        write(1, " ", 1);
+    }
     ft_putstr(file.mode);
     space = 0;
     while (space < nlinkdig - count_of_digits(file.nlink))

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 13:07:21 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/17 17:06:31 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 13:42:49 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void            recursion_ls_first(char *flags, char *path)
     t_file      *file;
     char        *filepath;
     char        *tmp;
+    t_file      *head;
 
     dir = opendir(path);
     file = get_t_file(dir, flags, path);
     print_all_files(file, flags);
     tmp = ft_strjoin(path, "/");
+    head = file;
     while (file != NULL)
     {
         if (file->mode[0] == 'd' && ft_strcmp(file->name, ".") != 0 &&
@@ -35,6 +37,7 @@ void            recursion_ls_first(char *flags, char *path)
         file = file->next;
     }
     free(tmp);
+    free_all_file(head);
     closedir(dir);
 }
 
@@ -44,6 +47,7 @@ void            recursion_ls(char *flags, char *path)
     t_file      *file;
     char        *filepath;
     char        *tmp;
+    t_file      *head;
 
     dir = opendir(path);
     file = get_t_file(dir, flags, path);
@@ -52,6 +56,7 @@ void            recursion_ls(char *flags, char *path)
     write(1, ":\n", 2);
     print_all_files(file, flags);
     tmp = ft_strjoin(path, "/");
+    head = file;
     while (file != NULL)
     {
         if (file->mode[0] == 'd' && ft_strcmp(file->name, ".") != 0 &&
@@ -64,5 +69,6 @@ void            recursion_ls(char *flags, char *path)
         file = file->next;
     }
     free(tmp);
+    free_all_file(head);
     closedir(dir);
 }

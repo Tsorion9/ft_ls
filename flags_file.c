@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 19:29:51 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/17 18:35:28 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 13:57:54 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int         check_flag(char *flag)
         return (0);
     i++;
     while (flag[i] == 'l' || flag[i] == 'R' || flag[i] == 'a' ||
-        flag[i] == 'r' || flag[i] == 't' || flag[i] == 'g')
+        flag[i] == 'r' || flag[i] == 't' || flag[i] == 'g' ||
+        flag[i] == 'i')
         i++;
     if (i == 1 || flag[i] != '\0')
         return (0);
@@ -84,7 +85,10 @@ void        get_flagfile(int ac, char **av, char **flags, char ***files)
         file = split_file(file, av[i]);
         i++;
     }
-    *files = ft_strsplit(file, ' ');
+    if (file == NULL)
+        files = NULL;
+    else
+        *files = ft_strsplit(file, ' ');
     if (*flags == NULL)
         *flags = ft_strnew(1);
     free(file);
