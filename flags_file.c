@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 19:29:51 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/18 13:57:54 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 20:34:51 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char        *get_flags(char *flags, char *new_flag)
     else
     {
         ft_putstr("usage: ./ft_ls \
-[-lRartg] [file ...]\n");
+[-lRartgi] [file ...]\n");
         free(flags);
         exit(0);
     }
@@ -86,7 +86,7 @@ void        get_flagfile(int ac, char **av, char **flags, char ***files)
         i++;
     }
     if (file == NULL)
-        files = NULL;
+        *files = NULL;
     else
         *files = ft_strsplit(file, ' ');
     if (*flags == NULL)

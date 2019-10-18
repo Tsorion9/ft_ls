@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/18 13:51:30 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/10/18 20:33:08 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int         main(int ac, char **av)
     char    **files;
     t_file *filelst;
 
+    flags = NULL; //delete
+    files = NULL; //delete
     get_flagfile(ac, av, &flags, &files);
     filelst = get_t_file(dir, flags, ".");
     if (files == NULL)
