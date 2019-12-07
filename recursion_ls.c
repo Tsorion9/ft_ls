@@ -31,7 +31,10 @@ void            recursion_ls_first(char *flags, char *path)
             ft_strcmp(file->name, "..") != 0)
         {
             filepath = ft_strjoin(tmp, file->name);
-            recursion_ls(flags, filepath);
+            if (file->name[0] != '.' && ft_strchr(flags, 'a') == NULL)
+                recursion_ls(flags, filepath);
+            else if (ft_strchr(flags, 'a') != NULL)
+                recursion_ls(flags, filepath);
             free(filepath);
         }
         file = file->next;
@@ -63,7 +66,10 @@ void            recursion_ls(char *flags, char *path)
             ft_strcmp(file->name, "..") != 0)
         {
             filepath = ft_strjoin(tmp, file->name);
-            recursion_ls(flags, filepath);
+            if (file->name[0] != '.' && ft_strchr(flags, 'a') == NULL)
+                recursion_ls(flags, filepath);
+            else if (ft_strchr(flags, 'a') != NULL)
+                recursion_ls(flags, filepath);
             free(filepath);
         }
         file = file->next;

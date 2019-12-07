@@ -87,15 +87,15 @@ int         get_total(t_file *file, char *flags)
 
 int         main(int ac, char **av)
 {
-    DIR     *dir = opendir(".");
-    char    *flags;
-    char    **files;
-    t_file *filelst;
+	DIR     *dir = opendir(".");
+   	char    *flags;
+	char    **files;
+	t_file 	*filelst;
 
-    flags = NULL; //delete
-    files = NULL; //delete
-    get_flagfile(ac, av, &flags, &files);
-    filelst = get_t_file(dir, flags, ".");
+	flags = NULL; //delete
+	files = NULL; //delete
+	get_flagfile(ac, av, &flags, &files);
+	filelst = get_t_file(dir, flags, ".");
     if (files == NULL)
     {
         if (ft_strchr(flags, 'R') == NULL)
@@ -108,8 +108,6 @@ int         main(int ac, char **av)
         closedir(dir);
     }
     else
-    {
-        
-    }
+        print_user_files(flags, files);
     return (0);
 }

@@ -36,6 +36,13 @@ typedef struct      s_file
     struct s_file   *next;
 }                   t_file;
 
+typedef struct      s_dir
+{
+    char            *name;
+    struct s_file   *file;
+    struct s_dir    *next;
+}                   t_dir;
+
 /*          main.c                  */
 t_file              *get_t_file(DIR *dir, char *flags, char *path);
 t_file              *reverse_list(t_file *file);
@@ -76,3 +83,8 @@ void                recursion_ls_first(char *flags, char *path);
 void                free_all_file(t_file *file);
 void                free_one_file(t_file *file);
 void                free_strsplit(char **str);
+
+/*          print_user_files.c      */
+void                print_user_files(char *flags, char **files);
+t_file              *search_file(DIR *dir, t_file *file, char *filepath, char *flags);
+char                *get_path(char *file);
