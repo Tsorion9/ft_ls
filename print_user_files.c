@@ -6,9 +6,19 @@ char        *get_path(char *file)
     int     i;
 
     i = ft_strlen(file) - 1;
-    while (file[i] != '/')
-        i--;
-    path = ft_strsub(file, 0, i + 1);
+    if (ft_strchr(file, '/') != NULL)
+    {
+        while (file[i] != '/')
+            i--;
+        path = ft_strsub(file, 0, i + 1);
+    }
+    else
+    {
+        path = (char*)malloc(sizeof(char) * 3);
+        path[0] = '.';
+        path[1] = '/';
+        path[2] = '\0';
+    }
     return (path);
 }
 
@@ -41,9 +51,14 @@ t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
     int             i;
 
     i = ft_strlen(filepath) - 1;
-    while (filepath[i] != '/')
-        i--;
-    file_name = ft_strdup(filepath + i + 1);
+    if (ft_strchr(filepath, '/') != NULL)
+    {
+        while (filepath[i] != '/')
+            i--;
+        file_name = ft_strdup(filepath + i + 1);
+    }
+    else
+        file_name = ft_strdup(filepath);
     dirent = readdir(dir);
     while (dirent != NULL)
     {
@@ -76,8 +91,7 @@ void        print_user_files(char *flags, char **files)
     while (files[i] != NULL)
     {
         dir = opendir(files[i]);
-        if (dir == NULL && ft_strchr(files[i], '/') != NULL &&
-            files[i][ft_strlen(files[i]) - 1] != '/')
+        if (dir == NULL && files[i][ft_strlen(files[i]) - 1] != '/')
         {
             path = get_path(files[i]);
             dir = opendir(path);
