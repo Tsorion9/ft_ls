@@ -60,8 +60,8 @@ char                *get_mode(struct stat statbuf);
 void                get_mode_sup(char *mode);
 
 /*          add_file.c              */
-t_file              *add_file(t_file *file, struct dirent *dirent, struct stat statbuf);
-t_file              *add_file_sup(t_file *file, struct dirent *dirent, struct stat statbuf);
+t_file              *add_file(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name);
+t_file              *add_file_sup(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name);
 t_file              *add_file_t(t_file *file, struct dirent *dirent, struct stat statbuf);
 t_file              *add_file_sup_t(t_file *file, struct dirent *dirent, struct stat statbuf);
 

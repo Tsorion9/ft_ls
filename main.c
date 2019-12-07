@@ -58,7 +58,7 @@ t_file      *get_t_file(DIR *dir, char *flags, char *path)
         filepath = ft_strjoin(tmp, dirent->d_name);
         lstat(filepath, &statbuf);
         if (ft_strchr(flags, 't') == NULL)
-            file = add_file(file, dirent, statbuf);
+            file = add_file(file, dirent, statbuf, dirent->d_name);
         else
             file = add_file_t(file, dirent, statbuf);
         dirent = readdir(dir);

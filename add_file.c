@@ -12,21 +12,21 @@
 
 #include "ft_ls.h"
 
-t_file      *add_file_sup(t_file *file, struct dirent *dirent, struct stat statbuf)
+t_file      *add_file_sup(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name)
 {
     t_file      *head;
     t_file      *prev_file;
 
     head = file;
     prev_file = file;
-    while (ft_strcmp(file->name, dirent->d_name) < 0 && file->next != NULL)
+    while (ft_strcmp(file->name, d_name) < 0 && file->next != NULL)
         file = file->next;
-    if (file->next == NULL && ft_strcmp(file->name, dirent->d_name) < 0)
+    if (file->next == NULL && ft_strcmp(file->name, d_name) < 0)
     {
         file->next = create_new_t_file(dirent, statbuf);
         return (head);
     }
-    else if (ft_strcmp(file->name, dirent->d_name) >= 0 && file == head)
+    else if (ft_strcmp(file->name, d_name) >= 0 && file == head)
     {
         prev_file = create_new_t_file(dirent, statbuf);
         prev_file->next = head;
@@ -39,22 +39,22 @@ t_file      *add_file_sup(t_file *file, struct dirent *dirent, struct stat statb
     return (head);
 }
 
-t_file      *add_file(t_file *file, struct dirent *dirent, struct stat statbuf)
+t_file      *add_file(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name)
 {
     t_file      *prev_file;
 
     if (file == NULL)
         file = create_new_t_file(dirent, statbuf);
-    else if (file->next == NULL && ft_strcmp(file->name, dirent->d_name) < 0)
+    else if (file->next == NULL && ft_strcmp(file->name, d_name) < 0)
         file->next = create_new_t_file(dirent, statbuf);
-    else if (file->next == NULL && ft_strcmp(file->name, dirent->d_name) >= 0)
+    else if (file->next == NULL && ft_strcmp(file->name, d_name) >= 0)
     {
         prev_file = create_new_t_file(dirent, statbuf);
         prev_file->next = file;
         return (prev_file);
     }
     else if (file->next != NULL)
-        return (add_file_sup(file, dirent, statbuf));
+        return (add_file_sup(file, dirent, statbuf, d_name));
     return (file);
 }
 

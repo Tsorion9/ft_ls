@@ -8,8 +8,29 @@ char        *get_path(char *file)
     i = ft_strlen(file) - 1;
     while (file[i] != '/')
         i--;
-    path = ft_strsub(file, 0, i);
+    path = ft_strsub(file, 0, i + 1);
     return (path);
+}
+
+void        new_filename(t_file *file, char *filepath)
+{
+    char    *path;
+    char    *temp;
+
+    path = get_path(filepath);
+    while (file != NULL)
+    {
+        temp = ft_strjoin(path, file->name);
+        if (ft_strcmp(filepath, temp) == 0)
+        {
+            free(file->name);
+            free(temp);
+            file->name = ft_strdup(filepath);
+            return ;
+        }
+        free(temp);
+        file = file->next;
+    }
 }
 
 t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
@@ -30,16 +51,16 @@ t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
         {
             lstat(filepath, &statbuf);
             if (ft_strchr(flags, 't') == NULL)
-                file = add_file(file, dirent, statbuf);
+                file = add_file(file, dirent, statbuf, filepath);
             else
                 file = add_file_t(file, dirent, statbuf);
             break ;
          }
          dirent = readdir(dir);
     }
+    if (dirent != NULL)
+        new_filename(file, filepath);
     free(file_name);
-    free(file->name);
-    file->name = ft_strdup(filepath);
     return (file);
 }
 
