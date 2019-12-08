@@ -12,17 +12,17 @@
 
 #include "ft_ls.h"
 
-void            print_all_files(t_file *file, char *flags)
+void            print_all_files(t_file *file, char *flags, int a)
 {
     if (ft_strchr(flags, 'l') != NULL || ft_strchr(flags, 'g') != NULL)
     {
         fill_nlinkd_sized(file, &(file->nlinkdig), &(file->sizedig));
-        print_all_files_l(file, flags);
+        print_all_files_l(file, flags, a);
         return ;
     }
     while (file != NULL)
     {
-        if (ft_strchr(flags, 'a') == NULL && file->name[0] != '.')
+        if (ft_strchr(flags, 'a') == NULL && (file->name[0] != '.' || file->name[1] == '.'))
         {
             if (ft_strchr(flags, 'i') != NULL)
             {
@@ -92,7 +92,7 @@ void            print_file_l(t_file file, int nlinkdig, int sizedig, char *flags
     free(date_mod);
 }
 
-void            print_all_files_l(t_file *file, char *flags)
+void            print_all_files_l(t_file *file, char *flags, int a)
 {
     int     nlinkdig;
     int     sizedig;
@@ -103,7 +103,7 @@ void            print_all_files_l(t_file *file, char *flags)
     sizedig = file->sizedig + 2;
     total = get_total(file, flags);
     head = file;
-    if (total != 0 || ft_strchr(flags, 'a') != NULL)
+    if ((total != 0 || ft_strchr(flags, 'a') != NULL) && a == 1)
     {
         write(1, "total ", 6);
         ft_putnbr(total);

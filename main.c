@@ -99,15 +99,15 @@ int         main(int ac, char **av)
     if (files == NULL)
     {
         if (ft_strchr(flags, 'R') == NULL)
-            print_all_files(filelst, flags);
+            print_all_files(filelst, flags, 1);
         else
             recursion_ls_first(flags, ".");
-        free(flags);
-        free_strsplit(files);
         free_all_file(filelst);
         closedir(dir);
     }
     else
         print_user_files(flags, files);
+    free(flags);
+    free_strsplit(files);
     return (0);
 }

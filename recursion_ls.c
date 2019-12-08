@@ -22,7 +22,7 @@ void            recursion_ls_first(char *flags, char *path)
 
     dir = opendir(path);
     file = get_t_file(dir, flags, path);
-    print_all_files(file, flags);
+    print_all_files(file, flags, 1);
     tmp = ft_strjoin(path, "/");
     head = file;
     while (file != NULL)
@@ -57,7 +57,7 @@ void            recursion_ls(char *flags, char *path)
     write(1, "\n", 1);
     ft_putstr(path);
     write(1, ":\n", 2);
-    print_all_files(file, flags);
+    print_all_files(file, flags, 1);
     tmp = ft_strjoin(path, "/");
     head = file;
     while (file != NULL)

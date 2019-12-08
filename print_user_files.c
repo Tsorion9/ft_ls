@@ -98,7 +98,12 @@ void        print_user_files(char *flags, char **files)
             file = search_file(dir, file, files[i], flags);
             free(path);
         }
+        if (dir != NULL)
+            closedir(dir);
         i++;
     }
-    print_all_files(file, flags);
+    if (ft_strchr(flags, 'r') != NULL)
+        file = reverse_list(file);
+    print_all_files(file, flags, 0);
+    free_all_file(file);
 }

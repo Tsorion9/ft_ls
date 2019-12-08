@@ -66,8 +66,8 @@ t_file              *add_file_t(t_file *file, struct dirent *dirent, struct stat
 t_file              *add_file_sup_t(t_file *file, struct dirent *dirent, struct stat statbuf);
 
 /*          print_files.c           */
-void                print_all_files(t_file *file, char *flags);
-void                print_all_files_l(t_file *file, char *flags);
+void                print_all_files(t_file *file, char *flags, int a);
+void                print_all_files_l(t_file *file, char *flags, int a);
 void                print_file_l(t_file file, int nlinkdig, int sizedig, char *flags);
 
 /*          trash.c                 */

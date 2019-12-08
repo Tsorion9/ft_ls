@@ -26,6 +26,11 @@ void            free_all_file(t_file *file)
     t_file      *head;
 
     head = file;
+    if (file->next == NULL)
+    {
+        free_one_file(file);
+        return ;
+    }
     while (file->next->next != NULL)
     {
         while (file->next->next != NULL)
