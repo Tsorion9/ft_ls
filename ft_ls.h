@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:00 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/18 13:55:38 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/10 14:05:02 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct      s_dir
 {
     char            *name;
     struct s_file   *file;
+    struct timespec date_mode;
     struct s_dir    *next;
 }                   t_dir;
 
@@ -88,3 +89,8 @@ void                free_strsplit(char **str);
 void                print_user_files(char *flags, char **files);
 t_file              *search_file(DIR *dir, t_file *file, char *filepath, char *flags);
 char                *get_path(char *file);
+t_dir               *create_dir(char *dir_name, t_file *file, struct stat statbuf);
+
+/*          add_dir                 */
+t_dir              *add_dir(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir              *dir_sup(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);

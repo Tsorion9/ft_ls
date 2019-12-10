@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 13:13:19 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/18 13:31:25 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/10 14:35:14 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,25 @@ void            free_all_file(t_file *file)
     t_file      *head;
 
     head = file;
-    if (file->next == NULL)
+    if (file != NULL)
     {
-        free_one_file(file);
-        return ;
-    }
-    while (file->next->next != NULL)
-    {
+        if (file->next == NULL)
+        {
+            free_one_file(file);
+            return ;
+        }
         while (file->next->next != NULL)
-            file = file->next;
+        {
+            while (file->next->next != NULL)
+                file = file->next;
+            free_one_file(file->next);
+            file->next = NULL;
+            file = head;
+        }
         free_one_file(file->next);
         file->next = NULL;
-        file = head;
+        free_one_file(file);
     }
-    free_one_file(file->next);
-    file->next = NULL;
-    free_one_file(file);
 }
 
 void            free_strsplit(char **str)

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:46:12 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/18 14:09:36 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/10 15:29:26 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void            print_all_files(t_file *file, char *flags, int a)
     }
     while (file != NULL)
     {
-        if (ft_strchr(flags, 'a') == NULL && (file->name[0] != '.' || file->name[1] == '.'))
+        if (ft_strchr(flags, 'a') == NULL && file->name[0] != '.')
         {
             if (ft_strchr(flags, 'i') != NULL)
             {
