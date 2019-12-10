@@ -94,11 +94,13 @@ t_dir           *create_dir(char *dir_name, t_file *file, struct stat statbuf)
     return (dir);
 }
 
-void        print_user_dir_sup(t_dir *user_dir, char *flags)
+void        print_user_dir_sup(t_dir *user_dir, char *flags, t_file *file)
 {
+    if (file != NULL)
+        write(1, "\n", 1);
     if (user_dir != NULL)
     {
-        if (user_dir->next == NULL)
+        if (user_dir->next == NULL && file == NULL)
         {
             if (ft_strchr(flags, 'R') == NULL)
                 print_all_files(user_dir->file, flags, 1);
@@ -125,7 +127,7 @@ void        print_user_dir_sup(t_dir *user_dir, char *flags)
     }
 }
 
-void        print_user_dir(char *flags, char **files)
+void        print_user_dir(char *flags, char **files, t_file *file)
 {
     DIR             *dir;
     t_dir           *user_dir;
@@ -147,7 +149,7 @@ void        print_user_dir(char *flags, char **files)
             closedir(dir);
         i++;
     }
-    print_user_dir_sup(user_dir, flags);
+    print_user_dir_sup(user_dir, flags, file);
 }
 
 void        print_user_files(char *flags, char **files)
@@ -175,6 +177,6 @@ void        print_user_files(char *flags, char **files)
     }
     if (file != NULL)
         print_all_files(file, flags, 0);
-    print_user_dir(flags, files);
+    print_user_dir(flags, files, file);
     free_all_file(file);
 }
