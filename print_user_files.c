@@ -34,11 +34,13 @@ void        new_filename(t_file *file, char *filepath)
         if (ft_strcmp(filepath, temp) == 0)
         {
             free(file->name);
-            free(temp);
+            //free(temp);
+            //free(path);
             file->name = ft_strdup(filepath);
-            return ;
+            //return ;
         }
         free(temp);
+        free(path);
         file = file->next;
     }
 }
@@ -213,6 +215,7 @@ void        print_user_dir(char *flags, char **files, t_file *file)
     if (ft_strchr(flags, 'r') != NULL && user_dir != NULL)
         user_dir = reverse_dir(user_dir);
     print_user_dir_sup(user_dir, flags, file);
+    free_all_dir(user_dir);
 }
 
 void        print_user_files(char *flags, char **files)

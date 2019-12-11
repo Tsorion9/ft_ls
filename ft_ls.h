@@ -6,12 +6,11 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:00 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/10 14:05:02 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/11 15:45:42 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
-#include <stdio.h> //delete
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "libft/includes/libft.h"
@@ -84,6 +83,8 @@ void                recursion_ls_first(char *flags, char *path);
 void                free_all_file(t_file *file);
 void                free_one_file(t_file *file);
 void                free_strsplit(char **str);
+void                free_all_dir(t_dir *user_dir);
+void                free_one_dir(t_dir *user_dir);
 
 /*          print_user_files.c      */
 void                print_user_files(char *flags, char **files);
@@ -95,4 +96,4 @@ t_dir               *create_dir(char *dir_name, t_file *file, struct stat statbu
 t_dir               *add_dir(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
 t_dir               *dir_sup(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
 t_dir               *add_dir_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
-t_dir              *add_dir_sup_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir               *add_dir_sup_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);

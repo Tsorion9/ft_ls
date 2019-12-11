@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/10 15:08:45 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/11 15:32:36 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,12 @@ int         main(int ac, char **av)
             print_all_files(filelst, flags, 1);
         else
             recursion_ls_first(flags, ".");
-        free_all_file(filelst);
-        closedir(dir);
     }
     else
         print_user_files(flags, files);
+    closedir(dir);
     free(flags);
+    free_all_file(filelst);
     free_strsplit(files);
     return (0);
 }

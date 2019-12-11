@@ -8,10 +8,10 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/kristinaafonina/Desktop/ft_ls/ft_ls",
-            "args": ["-l", "main.c", "jjj/s"],
+            "program": "/Users/mphobos/Desktop/ft_ls/ft_ls",
+            "args": ["-l", "main.c"],
             "stopAtEntry": false,
-            "cwd": "/Users/kristinaafonina/Desktop/ft_ls",
+            "cwd": "/Users/mphobos/Desktop/ft_ls",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb"
