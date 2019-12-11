@@ -43,13 +43,40 @@ void        new_filename(t_file *file, char *filepath)
     }
 }
 
+int         count_file(t_file *file)
+{
+    int     i;
+
+    i = 0;
+    if (file != NULL)
+        while (file != NULL)
+        {
+            file = file->next;
+            i++;
+        }
+    return (i);
+}
+
+void        print_such_file(char *file_name)
+{
+    write(1, "ft_ls: ", 7);
+    ft_putstr(file_name);
+    write(1, ": No such file or directory\n", 28);
+}
+
 t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
 {
     char            *file_name;
     struct dirent   *dirent;
     struct stat     statbuf;
     int             i;
+    int             count;
 
+    if (dir == NULL)
+    {
+        print_such_file(filepath);
+        return (file);
+    }
     i = ft_strlen(filepath) - 1;
     if (ft_strchr(filepath, '/') != NULL)
     {
@@ -60,6 +87,7 @@ t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
     else
         file_name = ft_strdup(filepath);
     dirent = readdir(dir);
+    count = count_file(file);
     while (dirent != NULL)
     {
         if (ft_strcmp(file_name, dirent->d_name) == 0)
@@ -73,6 +101,8 @@ t_file      *search_file(DIR *dir, t_file *file, char *filepath, char *flags)
          }
          dirent = readdir(dir);
     }
+    if (count == count_file(file))
+        print_such_file(filepath);
     if (dirent != NULL)
         new_filename(file, filepath);
     free(file_name);
@@ -96,7 +126,7 @@ t_dir           *create_dir(char *dir_name, t_file *file, struct stat statbuf)
 
 void        print_user_dir_sup(t_dir *user_dir, char *flags, t_file *file)
 {
-    if (file != NULL)
+    if (file != NULL && user_dir != NULL)
         write(1, "\n", 1);
     if (user_dir != NULL)
     {
@@ -127,6 +157,36 @@ void        print_user_dir_sup(t_dir *user_dir, char *flags, t_file *file)
     }
 }
 
+t_dir          *reverse_dir(t_dir *user_dir)
+{
+    t_dir   *head_dir;
+    t_dir   *next_dir;
+    t_dir   *head_r_dir;
+    t_dir   *r_dir;
+
+    head_dir = user_dir;
+    while (user_dir->next != NULL)
+        user_dir = user_dir->next;
+    r_dir = user_dir;
+    head_r_dir = r_dir;
+    while (head_dir->next != NULL)
+    {
+        user_dir = head_dir;
+        next_dir = user_dir->next;
+        while (next_dir->next != NULL)
+        {
+            user_dir = user_dir->next;
+            next_dir = next_dir->next;
+        }
+        user_dir->next = NULL;
+        r_dir = head_r_dir;
+        while (r_dir->next != NULL)
+            r_dir = r_dir->next;
+        r_dir->next = user_dir;
+    }
+    return (head_r_dir);
+}
+
 void        print_user_dir(char *flags, char **files, t_file *file)
 {
     DIR             *dir;
@@ -144,11 +204,14 @@ void        print_user_dir(char *flags, char **files, t_file *file)
             lstat(files[i], &statbuf);
             if (ft_strchr(flags, 't') == NULL)
                 user_dir = add_dir(user_dir, files[i], get_t_file(dir, flags, files[i]), statbuf);
-        }
-        if (dir != NULL)
+            else
+                user_dir = add_dir_t(user_dir, files[i], get_t_file(dir, flags, files[i]), statbuf);
             closedir(dir);
+        }
         i++;
     }
+    if (ft_strchr(flags, 'r') != NULL && user_dir != NULL)
+        user_dir = reverse_dir(user_dir);
     print_user_dir_sup(user_dir, flags, file);
 }
 
@@ -176,7 +239,12 @@ void        print_user_files(char *flags, char **files)
         i++;
     }
     if (file != NULL)
-        print_all_files(file, flags, 0);
+    {
+        if (ft_strchr(flags, 'r') != NULL)
+            print_all_files(reverse_list(file), flags, 0);
+        else
+            print_all_files(file, flags, 0);
+    }
     print_user_dir(flags, files, file);
     free_all_file(file);
 }

@@ -92,5 +92,7 @@ char                *get_path(char *file);
 t_dir               *create_dir(char *dir_name, t_file *file, struct stat statbuf);
 
 /*          add_dir                 */
-t_dir              *add_dir(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
-t_dir              *dir_sup(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir               *add_dir(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir               *dir_sup(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir               *add_dir_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir              *add_dir_sup_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
