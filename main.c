@@ -6,108 +6,117 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/11 15:32:36 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/11 17:49:41 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_file          *reverse_list(t_file *file)
+t_file		*reverse_list_sup(t_file *head_file, t_file *file, \
+	t_file *next_file, t_file *r_file)
 {
-    t_file      *head_file;
-    t_file      *next_file;
-    t_file      *head_r_file;
-    t_file      *r_file;
+	t_file	*head_r_file;
 
-    head_file = file;
-    while (file->next != NULL)
-        file = file->next;
-    r_file = file;
-    head_r_file = r_file;
-    while (head_file->next != NULL)
-    {
-        file = head_file;
-        next_file = file->next;
-        while (next_file->next != NULL)
-        {
-            file = file->next;
-            next_file = next_file->next;
-        }
-        file->next = NULL;
-        r_file = head_r_file;
-        while (r_file->next != NULL)
-            r_file = r_file->next;
-        r_file->next = file;
-    }
-    return (head_r_file);
+	head_r_file = r_file;
+	while (head_file->next != NULL)
+	{
+		file = head_file;
+		next_file = file->next;
+		while (next_file->next != NULL)
+		{
+			file = file->next;
+			next_file = next_file->next;
+		}
+		file->next = NULL;
+		r_file = head_r_file;
+		while (r_file->next != NULL)
+			r_file = r_file->next;
+		r_file->next = file;
+	}
+	return (head_r_file);
 }
 
-t_file      *get_t_file(DIR *dir, char *flags, char *path)
+t_file		*reverse_list(t_file *file)
 {
-    t_file          *file;
-    struct dirent   *dirent;
-    struct stat     statbuf;
-    char            *filepath;
-    char            *tmp;
+	t_file	*head_file;
+	t_file	*next_file;
+	t_file	*r_file;
 
-    tmp = ft_strjoin(path, "/");
-    file = NULL;
-    dirent = readdir(dir);
-    while (dirent != NULL)
-    {
-        filepath = ft_strjoin(tmp, dirent->d_name);
-        lstat(filepath, &statbuf);
-        if (ft_strchr(flags, 't') == NULL)
-            file = add_file(file, dirent, statbuf, dirent->d_name);
-        else
-            file = add_file_t(file, dirent, statbuf);
-        dirent = readdir(dir);
-        free(filepath);
-    }
-    free(tmp);
-    if (ft_strchr(flags, 'r') != NULL)
-        return (reverse_list(file));
-    return (file);
+	head_file = file;
+	next_file = NULL;
+	while (file->next != NULL)
+		file = file->next;
+	r_file = file;
+	return (reverse_list_sup(head_file, file, next_file, r_file));
 }
 
-int         get_total(t_file *file, char *flags)
+t_file		*get_t_file(DIR *dir, char *flags, char *path)
 {
-    blkcnt_t     size;
+	t_file			*file;
+	struct dirent	*dirent;
+	struct stat		statbuf;
+	char			*filepath;
+	char			*tmp;
 
-    size = 0;
-    while (file != NULL)
-    {
-        if (ft_strchr(flags, 'a') != NULL || 
-            (ft_strchr(flags, 'a') == NULL && file->name[0] != '.'))
-            size += file->blksize;
-        file = file->next;
-    }
-    return (size);
+	tmp = ft_strjoin(path, "/");
+	file = NULL;
+	dirent = readdir(dir);
+	while (dirent != NULL)
+	{
+		filepath = ft_strjoin(tmp, dirent->d_name);
+		lstat(filepath, &statbuf);
+		if (ft_strchr(flags, 't') == NULL)
+			file = add_file(file, dirent, statbuf, dirent->d_name);
+		else
+			file = add_file_t(file, dirent, statbuf);
+		dirent = readdir(dir);
+		free(filepath);
+	}
+	free(tmp);
+	if (ft_strchr(flags, 'r') != NULL)
+		return (reverse_list(file));
+	return (file);
 }
 
-int         main(int ac, char **av)
+int			get_total(t_file *file, char *flags)
 {
-	DIR     *dir = opendir(".");
-   	char    *flags;
-	char    **files;
-	t_file 	*filelst;
+	blkcnt_t	size;
 
-	flags = NULL; //delete
-	files = NULL; //delete
+	size = 0;
+	while (file != NULL)
+	{
+		if (ft_strchr(flags, 'a') != NULL ||
+			(ft_strchr(flags, 'a') == NULL && file->name[0] != '.'))
+			size += file->blksize;
+		file = file->next;
+	}
+	return (size);
+}
+
+int			main(int ac, char **av)
+{
+	DIR		*dir;
+	char	*flags;
+	char	**files;
+	t_file	*filelst;
+
+	dir = opendir(".");
+	flags = NULL;
+	files = NULL;
 	get_flagfile(ac, av, &flags, &files);
 	filelst = get_t_file(dir, flags, ".");
-    if (files == NULL)
-    {
-        if (ft_strchr(flags, 'R') == NULL)
-            print_all_files(filelst, flags, 1);
-        else
-            recursion_ls_first(flags, ".");
-    }
-    else
-        print_user_files(flags, files);
-    closedir(dir);
-    free(flags);
-    free_all_file(filelst);
-    free_strsplit(files);
-    return (0);
+	if (files == NULL)
+	{
+		if (ft_strchr(flags, 'R') == NULL)
+			print_all_files(filelst, flags, 1);
+		else
+			recursion_ls_first(flags, ".");
+	}
+	else
+		print_user_files(flags, files);
+	closedir(dir);
+	free(flags);
+	free_all_file(filelst);
+	free_strsplit(files);
+	return (0);
 }

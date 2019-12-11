@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:00 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/11 15:45:42 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/11 17:43:14 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct      s_dir
 t_file              *get_t_file(DIR *dir, char *flags, char *path);
 t_file              *reverse_list(t_file *file);
 int                 get_total(t_file *file, char *flags);
+t_file              *reverse_list_sup(t_file *head_file, t_file *file, t_file *next_file, t_file *r_file);
 
 /*          flags_file.c            */
 char                *get_flags(char *flags, char *new_flag);
@@ -58,12 +59,14 @@ void                get_flagfile(int ac, char **av, char **flags, char ***files)
 t_file              *create_new_t_file(struct dirent *dirent, struct stat statbuf);
 char                *get_mode(struct stat statbuf);
 void                get_mode_sup(char *mode);
+void                get_mode_sup1(char *mode, struct stat statbuf);
 
 /*          add_file.c              */
 t_file              *add_file(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name);
 t_file              *add_file_sup(t_file *file, struct dirent *dirent, struct stat statbuf, char *d_name);
 t_file              *add_file_t(t_file *file, struct dirent *dirent, struct stat statbuf);
 t_file              *add_file_sup_t(t_file *file, struct dirent *dirent, struct stat statbuf);
+t_file		        *add_file_sup_t1(t_file *prev_file, t_file *file);
 
 /*          print_files.c           */
 void                print_all_files(t_file *file, char *flags, int a);
@@ -97,3 +100,4 @@ t_dir               *add_dir(t_dir *user_dir, char *dir_name, t_file *file, stru
 t_dir               *dir_sup(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
 t_dir               *add_dir_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
 t_dir               *add_dir_sup_t(t_dir *user_dir, char *dir_name, t_file *file, struct stat statbuf);
+t_dir		        *add_dir_sup_t1(t_dir *prev_dir, t_dir *user_dir);
