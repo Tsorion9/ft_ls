@@ -34,15 +34,15 @@ void        new_filename(t_file *file, char *filepath)
         if (ft_strcmp(filepath, temp) == 0)
         {
             free(file->name);
-            //free(temp);
-            //free(path);
+            free(temp);
+            free(path);
             file->name = ft_strdup(filepath);
-            //return ;
+            return ;
         }
         free(temp);
-        free(path);
         file = file->next;
     }
+    free(path);
 }
 
 int         count_file(t_file *file)
