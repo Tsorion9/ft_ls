@@ -6,13 +6,13 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/11 17:49:41 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/12 15:30:45 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_file		*reverse_list_sup(t_file *head_file, t_file *file, \
+t_file		*reverse_list_s(t_file *head_file, t_file *file, \
 	t_file *next_file, t_file *r_file)
 {
 	t_file	*head_r_file;
@@ -47,7 +47,7 @@ t_file		*reverse_list(t_file *file)
 	while (file->next != NULL)
 		file = file->next;
 	r_file = file;
-	return (reverse_list_sup(head_file, file, next_file, r_file));
+	return (reverse_list_s(head_file, file, next_file, r_file));
 }
 
 t_file		*get_t_file(DIR *dir, char *flags, char *path)
