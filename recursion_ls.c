@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 13:07:21 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/12 15:16:25 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/14 17:43:31 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ void		recursion_ls_first(char *flags, char *path)
 	t_file		*head;
 
 	dir = opendir(path);
-	file = get_t_file(dir, flags, path);
-	print_all_files(file, flags, 1);
-	tmp = ft_strjoin(path, "/");
-	head = file;
-	recursion_sup(file, NULL, flags, tmp);
-	free(tmp);
-	free_all_file(head);
-	closedir(dir);
+	if (dir != NULL)
+	{
+		file = get_t_file(dir, flags, path);
+		print_all_files(file, flags, 1);
+		tmp = ft_strjoin(path, "/");
+		head = file;
+		recursion_sup(file, NULL, flags, tmp);
+		free(tmp);
+		free_all_file(head);
+		closedir(dir);
+	}
 }
 
 void		recursion_ls(char *flags, char *path)
@@ -56,15 +59,18 @@ void		recursion_ls(char *flags, char *path)
 	t_file		*head;
 
 	dir = opendir(path);
-	file = get_t_file(dir, flags, path);
-	write(1, "\n", 1);
-	ft_putstr(path);
-	write(1, ":\n", 2);
-	print_all_files(file, flags, 1);
-	tmp = ft_strjoin(path, "/");
-	head = file;
-	recursion_sup(file, NULL, flags, tmp);
-	free(tmp);
-	free_all_file(head);
-	closedir(dir);
+	if (dir != NULL)
+	{
+		file = get_t_file(dir, flags, path);
+		write(1, "\n", 1);
+		ft_putstr(path);
+		write(1, ":\n", 2);
+		print_all_files(file, flags, 1);
+		tmp = ft_strjoin(path, "/");
+		head = file;
+		recursion_sup(file, NULL, flags, tmp);
+		free(tmp);
+		free_all_file(head);
+		closedir(dir);
+	}
 }

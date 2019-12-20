@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:57:38 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/12 14:24:59 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/12 16:44:14 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ void		print_user_files_sup(char *flags, char **files, t_file *file)
 	if (file != NULL)
 	{
 		if (ft_strchr(flags, 'r') != NULL)
-			print_all_files(reverse_list(file), flags, 0);
-		else
-			print_all_files(file, flags, 0);
+			file = reverse_list(file);
+		print_all_files(file, flags, 0);
 	}
 	print_user_dir(flags, files, file);
 	free_all_file(file);

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:46:12 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/12 13:25:21 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/14 17:18:31 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ void		print_file_l(t_file file, int nlinkdig, int sizedig, char *flags)
 	ft_putstr(date_mod);
 	ft_putstr(" ");
 	ft_putstr(file.name);
+	if (file.mode[0] == 'l')
+	{
+		write(1, " -> ", 4);
+		ft_putstr(file.lname);
+	}
 	ft_putchar('\n');
 	free(date_mod);
 }

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:00 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/12 15:37:32 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/20 14:10:40 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_file
 	int				sizedig;
 	struct timespec	date_mod;
 	char			*name;
+	char			*lname;
 	blkcnt_t		blksize;
 	struct s_file	*next;
 }					t_file;
@@ -66,7 +67,6 @@ t_file				*add_file_t(t_file *file, struct dirent *dirent, \
 		struct stat statbuf);
 t_file				*add_file_sup_t(t_file *file, \
 		struct dirent *dirent, struct stat statbuf);
-t_file				*add_file_sup_t1(t_file *prev_file, t_file *file);
 void				print_all_files(t_file *file, char *flags, int a);
 void				print_all_files_l(t_file *file, char *flags, int a);
 void				print_file_l(t_file file, int nlinkdig, \

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:37:34 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/12 15:30:45 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/20 14:10:42 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,19 @@ t_file		*reverse_list(t_file *file)
 	return (reverse_list_s(head_file, file, next_file, r_file));
 }
 
+void		fill_lname(t_file *file, char *filepath, struct dirent *dir)
+{
+	while (file != NULL)
+	{
+		if (ft_strcmp(file->name, dir->d_name) == 0 && file->lname == NULL)
+		{
+			file->lname = (char*)malloc(1024);
+			readlink(filepath, file->lname, 1024);
+		}
+		file = file->next;
+	}
+}
+
 t_file		*get_t_file(DIR *dir, char *flags, char *path)
 {
 	t_file			*file;
@@ -69,6 +82,8 @@ t_file		*get_t_file(DIR *dir, char *flags, char *path)
 			file = add_file(file, dirent, statbuf, dirent->d_name);
 		else
 			file = add_file_t(file, dirent, statbuf);
+		if ((S_IFLNK & statbuf.st_mode) == S_IFLNK)
+			fill_lname(file, filepath, dirent);
 		dirent = readdir(dir);
 		free(filepath);
 	}

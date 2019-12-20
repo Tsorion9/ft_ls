@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 13:13:19 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/11 17:34:06 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/14 17:24:02 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void		free_one_file(t_file *file)
 	free(file->uid);
 	free(file->gid);
 	free(file->name);
+	if (file->lname != NULL)
+		free(file->lname);
 	free(file);
 }
 

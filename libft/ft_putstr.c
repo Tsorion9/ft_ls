@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 14:57:11 by mphobos           #+#    #+#             */
-/*   Updated: 2019/10/15 13:49:30 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/14 19:05:22 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	ft_putstr(const char *s)
 {
-	int		i;
-
 	if (s)
-	{
-		i = 0;
-		while (s[i] != '\0')
+		write(1, s, ft_strlen(s));
+		/*while (*s != '\0')
 		{
-			ft_putchar(s[i]);
-			i++;
+			write(1, s, 1);
+			s++;
 		}
-	}
+		*/
 }

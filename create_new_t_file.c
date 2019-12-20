@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 17:37:05 by mphobos           #+#    #+#             */
-/*   Updated: 2019/12/11 17:23:00 by mphobos          ###   ########.fr       */
+/*   Updated: 2019/12/20 14:10:41 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_file		*create_new_t_file(struct dirent *dirent, struct stat statbuf)
 	else
 		file->blksize = 0;
 	file->name = ft_strdup(dirent->d_name);
+	file->lname = NULL;
 	file->next = NULL;
 	return (file);
 }
